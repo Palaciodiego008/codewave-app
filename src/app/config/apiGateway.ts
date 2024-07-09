@@ -1,5 +1,5 @@
 import axios from "axios";
-import { AppInterceptors } from "@/app/services/interceptors";
+import { AppInterceptors } from "@/app/config/interceptors";
 
 export const ApiGateway = axios.create({
   baseURL: process.env.NEXT_PUBLIC_APP_CODEWAVE_API_GATEWAY,

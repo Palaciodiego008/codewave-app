@@ -1,5 +1,5 @@
 import { AUTH_ROUTES } from "@/app/config/api";
-import { ApiGateway } from "@/app/services/apiGateway";
+import { ApiGateway } from "@/app/config/apiGateway";
 import { AuthDto, RegisterDto } from "./dto/Auth.dto";
 
 class AuthService {
