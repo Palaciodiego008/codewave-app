@@ -10,7 +10,7 @@ const Home = () => {
   const router = useRouter()
 
   useEffect(() => {
-    if (!user) {
+    if (user) {
       router.push("/authentication/login")
     } else {
       router.push("/dashboard")
@@ -19,9 +19,7 @@ const Home = () => {
 
 
   return (
-    <AuthProvider>
-      <Loader />
-    </AuthProvider>
+    <Loader />
   );
 }
 
