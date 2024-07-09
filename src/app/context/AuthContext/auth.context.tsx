@@ -1,9 +1,13 @@
+'use client';
+
 import { authService } from "@/app/authentication/services/auth.service";
 import { AuthDto, RegisterDto } from "@/app/authentication/services/dto/Auth.dto";
-import { useRouter } from "next/router";
-import { createContext } from "react";
+import { useRouter } from "next/navigation";
+import { createContext, useContext, useState } from "react";
 
 interface AuthContextProps {
+  user: any
+  setUser: (user: any) => void
   login: (authParams: AuthDto) => Promise<any>
   register: (registerParams: RegisterDto) => Promise<any>
   logout: () => void
@@ -13,6 +17,7 @@ const AuthContext = createContext<AuthContextProps>({} as AuthContextProps)
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter()
+  const [user, setUser] = useState<any>(null)
 
   const login = async (authParams: AuthDto) => {
     const res = await authService.login(authParams)
@@ -41,6 +46,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <AuthContext.Provider
       value={{
+        user,
+        setUser,
         login,
         register,
         logout
@@ -49,4 +56,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       {children}
     </AuthContext.Provider>
   )
+}
+
+export const useAuthContext = () => {
+  const authContext = useContext(AuthContext)
+  if (!authContext) {
+    throw new Error("useAuthContext must be used within an AuthProvider")
+  }
+
+  return authContext
 }
