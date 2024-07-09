@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { AuthProvider, useAuthContext } from "./context/AuthContext/auth.context";
 import { useEffect } from "react";
+import Loader from "./(Dashboard)/layout/loader/Loader";
 
 const Home = () => {
   const { user } = useAuthContext()
@@ -19,7 +20,7 @@ const Home = () => {
 
   return (
     <AuthProvider>
-      <h1>Home</h1>
+      <Loader />
     </AuthProvider>
   );
 }
