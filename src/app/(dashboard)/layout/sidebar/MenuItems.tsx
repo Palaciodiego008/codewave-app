@@ -16,19 +16,19 @@ const Menuitems = [
     id: uniqueId(),
     title: "Dashboard",
     icon: IconLayoutDashboard,
-    href: "/dashboard",
+    href: "/",
   },
   {
     id: uniqueId(),
     title: "Users",
     icon: IconUser,
-    href: "/dashboard/users",
+    href: "/users",
   },
   {
     id: uniqueId(),
     title: "Projects",
     icon: IconBook,
-    href: "/dashboard/projects",
+    href: "/projects",
   },
 ];
 

@@ -5,7 +5,7 @@ import Link from 'next/link';
 // components
 import Profile from './Profile';
 import { IconBellRinging, IconMenu } from '@tabler/icons-react';
-import { useAuthContext } from '@/app/context/AuthContext/auth.context';
+import { useAuthContext } from '@/context/AuthContext/auth.context';
 
 interface ItemType {
   toggleMobileSidebar:  (event: React.MouseEvent<HTMLElement>) => void;
@@ -13,8 +13,6 @@ interface ItemType {
 
 const Header = ({toggleMobileSidebar}: ItemType) => {
   const { user } = useAuthContext();
-
-  console.log('user', user)
 
   // const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
   // const lgDown = useMediaQuery((theme) => theme.breakpoints.down('lg'));

@@ -2,8 +2,8 @@
 
 import { styled, Container, Box } from "@mui/material";
 import React, { useState } from "react";
-import Header from "@/app/dashboard/layout/header/Header";
-import Sidebar from "@/app/dashboard/layout/sidebar/Sidebar";
+import Header from "@/app/(dashboard)/layout/header/Header";
+import Sidebar from "@/app/(dashboard)/layout/sidebar/Sidebar";
 
 
 const MainWrapper = styled("div")(() => ({

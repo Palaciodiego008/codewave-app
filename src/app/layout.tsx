@@ -2,8 +2,8 @@
 
 import "./globals.css";
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import { baselightTheme } from "./ utils/theme/DefaultColors";
-import { AuthProvider } from "./context/AuthContext/auth.context";
+import { baselightTheme } from "../ utils/theme/DefaultColors";
+import { AuthProvider } from "../context/AuthContext/auth.context";
 
 export default function RootLayout({
   children,
