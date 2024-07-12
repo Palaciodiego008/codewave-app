@@ -9,7 +9,8 @@ export function middleware(request: NextRequest) {
   // Check if the request path is a protected route
   if (protectedRoutes.includes(url.pathname)) {
     // Check if the user is authenticated
-    if (request.cookies.get('session')?.value === 'authenticated') {
+    if (request.cookies.get('token') && request.cookies.get('token')?.value !== '') {
+      console.log('User is authenticated', request.cookies.get('token'))
       // If the user is authenticated, continue to the next middleware
       return NextResponse.next()
     }
