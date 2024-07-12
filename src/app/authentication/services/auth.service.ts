@@ -5,7 +5,7 @@ import { AuthDto, RegisterDto } from "./dto/Auth.dto";
 class AuthService {
   async login(authParams: AuthDto): Promise<any> {
     try {
-      const response = await ApiGateway.post(AUTH_ROUTES.LOGIN, { authParams })
+      const response = await ApiGateway.post(AUTH_ROUTES.LOGIN, { ...authParams })
 
       return response.data;
     } catch (error) {
@@ -16,7 +16,7 @@ class AuthService {
 
   async register(registerDto: RegisterDto): Promise<any> {
     try {
-      const response = await ApiGateway.post(AUTH_ROUTES.REGISTER, { registerDto })
+      const response = await ApiGateway.post(AUTH_ROUTES.REGISTER, { ...registerDto })
 
       return response.data;
     } catch (error) {
