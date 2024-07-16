@@ -7,7 +7,7 @@
   </defs>
   <style>
     .text { fill: #151c2c; font-family: 'Arial', sans-serif; font-size: 30px; font-weight: bold; }
-    .Wave { fill: url(#waveGradient); }
+    .wave { fill: url(#waveGradient); }
     .code { fill: #f9a825; font-family: 'Courier New', Courier, monospace; font-size: 28px; }
   </style>
   <path class="wave" d="M10,50 Q50,10 90,50 T170,50 T250,50 Q270,30 290,50" stroke="none" stroke-width="4" fill="none"/>
