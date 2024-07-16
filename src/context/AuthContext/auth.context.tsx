@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const login = async (authParams: AuthDto) => {
     const res = await authService.login(authParams)
-    if (res.data.success) {
+    if (res) {
       window.localStorage.setItem("token", res.token)
       router.push("/")
     }

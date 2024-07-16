@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import {
   Avatar,
@@ -15,11 +16,16 @@ import { IconListCheck, IconMail, IconUser } from "@tabler/icons-react";
 
 const Profile = () => {
   const [anchorEl2, setAnchorEl2] = useState(null);
+  const router = useRouter();
   const handleClick2 = (event: any) => {
     setAnchorEl2(event.currentTarget);
   };
   const handleClose2 = () => {
-    setAnchorEl2(null);
+    const token = window.localStorage.getItem("token");
+    if (token) {
+      window.localStorage.removeItem("token");
+      router.push("/authentication/login");
+    }
   };
 
   return (
@@ -76,6 +82,7 @@ const Profile = () => {
             color="primary"
             component={Link}
             fullWidth
+            onClick={handleClose2}
           >
             Logout
           </Button>

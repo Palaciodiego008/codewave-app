@@ -1,7 +1,7 @@
 import {
   IconLayoutDashboard,
   IconUser,
-  IconBook
+  IconFolder,
 } from "@tabler/icons-react";
 
 import { uniqueId } from "lodash";
@@ -27,7 +27,7 @@ const Menuitems = [
   {
     id: uniqueId(),
     title: "Projects",
-    icon: IconBook,
+    icon: IconFolder,
     href: "/projects",
   },
 ];
