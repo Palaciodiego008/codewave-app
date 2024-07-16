@@ -55,7 +55,7 @@ const Login2 = () => {
                     color="textSecondary"
                     mb={1}
                   >
-                    Your Social Campaigns
+                    AI-Driven Code Analysis for Excellence
                   </Typography>
                 }
                 subtitle={
