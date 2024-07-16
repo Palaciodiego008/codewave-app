@@ -6,13 +6,10 @@ import SalesOverview from '@/app/(dashboard)/components/dashboard/SalesOverview'
 import YearlyBreakup from '@/app/(dashboard)/components/dashboard/YearlyBreakup';
 import RecentTransactions from '@/app/(dashboard)/components/dashboard/RecentTransactions';
 import ProductPerformance from '@/app/(dashboard)/components/dashboard/ProductPerformance';
-import Blog from '@/app/(dashboard)/components/dashboard/Blog';
 import MonthlyEarnings from '@/app/(dashboard)/components/dashboard/MonthlyEarnings';
-import { useAuthContext } from '@/context/AuthContext/auth.context';
 
 
 const Dashboard = () => {
-  const { user } = useAuthContext();
   return (
     <PageContainer title="Dashboard" description="this is Dashboard">
       <Box>

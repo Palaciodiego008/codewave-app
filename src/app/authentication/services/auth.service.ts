@@ -5,12 +5,11 @@ import { AuthDto, RegisterDto } from "./dto/Auth.dto";
 class AuthService {
   async login(authParams: AuthDto): Promise<any> {
     try {
-      const response = await ApiGateway.post(AUTH_ROUTES.LOGIN, { ...authParams })
+      const { data } = await ApiGateway.post(AUTH_ROUTES.LOGIN, { ...authParams })
 
-      return response.data;
+      return data;
     } catch (error) {
-      const err = String(error);
-      throw new Error(err);
+      return error;
     }
   }
 
