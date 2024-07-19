@@ -65,17 +65,17 @@ export const FormProjects = ({ title, project, setProject, action }: FormProject
                 labelId="language"
                 id="language"
                 multiple
-                value={project.language}
+                value={project.languages}
                 input={<OutlinedInput label="Language" />}
                 renderValue={(selected) => selected.join(', ')}
                 label="Language"
                 MenuProps={MenuProps}
-                onChange={(e: any) => setProject({ ...project, language: e.target.value })}
+                onChange={(e: any) => setProject({ ...project, languages: e.target.value })}
               >
                 {languages.map((language, index) => (
                   <MenuItem key={index} value={language}>
                      <Checkbox
-                        checked={project.language.indexOf(language) > -1}
+                        checked={project.languages.indexOf(language) > -1}
                      />
                      <ListItemText primary={language} />
                   </MenuItem>

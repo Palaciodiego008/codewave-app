@@ -17,7 +17,7 @@ export const NewProjects = () => {
     id: '',
     title: '',
     description: '',
-    language: [],
+    languages: [],
     backend: false,
     frontend: false,
     user_id: '',
