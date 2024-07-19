@@ -1,13 +1,14 @@
 'use client';
 
+import { parseJWT } from "@/ utils/helpers";
 import { authService } from "@/app/authentication/services/auth.service";
-import { AuthDto, RegisterDto } from "@/app/authentication/services/dto/Auth.dto";
+import { AuthDto, RegisterDto, UserDto } from "@/app/authentication/services/dto/Auth.dto";
 import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
 
 interface AuthContextProps {
-  user: any
-  setUser: (user: any) => void
+  user: UserDto
+  setUser: (user: UserDto) => void
   login: (authParams: AuthDto) => Promise<any>
   register: (registerParams: RegisterDto) => Promise<any>
   logout: () => void
@@ -17,17 +18,18 @@ const AuthContext = createContext<AuthContextProps>({} as AuthContextProps)
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter()
-  const [user, setUser] = useState<any>(null)
+  const [user, setUser] = useState<UserDto>({} as UserDto)
 
   useEffect(() => {
     const token = window.localStorage.getItem("token")
     if (token) {
+      const decodeToken = parseJWT(token)
       setUser({
-        name: 'John Doe',
-        email: '',
+        id: decodeToken.id,
+        name: decodeToken.name,
+        email: decodeToken.email,
+        exp: decodeToken.exp
       })
-
-      router.push("/")
     } else {
       router.push("/authentication/login")
     }
@@ -36,12 +38,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const login = async (authParams: AuthDto) => {
     const res = await authService.login(authParams)
     if (res.success) {
+      window.localStorage.setItem("token", res.data.token)
+      const decodeToken = parseJWT(res.data.token)
+
       setUser({
-        name: 'John Doe',
-        email: 'john@gmail.com'
+        id: decodeToken.id,
+        name: decodeToken.name,
+        email: decodeToken.email,
+        exp: decodeToken.exp
       })
 
-      window.localStorage.setItem("token", res.data.token)
       router.push("/")
     }
 

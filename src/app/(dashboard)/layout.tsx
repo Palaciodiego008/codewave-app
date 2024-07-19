@@ -35,7 +35,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         isMobileSidebarOpen={isMobileSidebarOpen}
         onSidebarClose={() => setMobileSidebarOpen(false)}
       />
-      <PageWrapper className="page-wrapper">
+      <PageWrapper sx={{ background: '#F7F7F9' }} className="page-wrapper">
         <Header toggleMobileSidebar={() => setMobileSidebarOpen(true)} />
         <Container
           sx={{

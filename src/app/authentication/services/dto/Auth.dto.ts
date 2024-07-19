@@ -8,3 +8,10 @@ export interface RegisterDto {
   password: string;
   confirmPassword: string;
 }
+
+export interface UserDto {
+  id: string;
+  name: string;
+  email: string;
+  exp: number;
+}

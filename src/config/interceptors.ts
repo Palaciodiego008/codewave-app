@@ -2,7 +2,7 @@ import type { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axio
 
 export const AppInterceptors = {
   req: (config: InternalAxiosRequestConfig) => {
-    const jwt = localStorage.getItem("jwt-token");
+    const jwt = localStorage.getItem("token");
     if (jwt) {
       config.headers.Authorization = `Bearer ${jwt}`;
     }
