@@ -1,7 +1,7 @@
 'use client'
 
 import CustomTextField from "@/app/(dashboard)/components/forms/theme-elements/CustomTextField"
-import { Button, Card, Checkbox, FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material"
+import { Button, Card, Checkbox, FormControl, FormControlLabel, Grid, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, TextField, Typography } from "@mui/material"
 import { Dispatch, SetStateAction, useState } from "react"
 import { ProjectDto } from "../../services/dto/Project.dto"
 
@@ -12,20 +12,31 @@ interface FormProjectsProps {
   action: (e: any) => void
 }
 
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
 export const FormProjects = ({ title, project, setProject, action }: FormProjectsProps) => {
   const languages = [
-    { title: 'Javascript' },
-    { title: 'Typescript' },
-    { title: 'Python' },
-    { title: 'Java' },
-    { title: 'Ruby' },
-    { title: 'Go' },
-    { title: 'C#' },
-    { title: 'C++' },
-    { title: 'PHP' },
-    { title: 'Swift' },
-    { title: 'Kotlin' },
-    { title: 'Rust' },
+    'Javascript',
+    'Typescript',
+    'Python',
+    'Java',
+    'Ruby',
+    'Go',
+    'C#',
+    'C++',
+    'PHP',
+    'Swift',
+    'Kotlin',
+    'Rust',
   ]
 
   return (
@@ -53,12 +64,21 @@ export const FormProjects = ({ title, project, setProject, action }: FormProject
               <Select
                 labelId="language"
                 id="language"
+                multiple
                 value={project.language}
+                input={<OutlinedInput label="Language" />}
+                renderValue={(selected) => selected.join(', ')}
                 label="Language"
+                MenuProps={MenuProps}
                 onChange={(e: any) => setProject({ ...project, language: e.target.value })}
               >
                 {languages.map((language, index) => (
-                  <MenuItem key={index} value={language.title}>{language.title}</MenuItem>
+                  <MenuItem key={index} value={language}>
+                     <Checkbox
+                        checked={project.language.indexOf(language) > -1}
+                     />
+                     <ListItemText primary={language} />
+                  </MenuItem>
                 ))}
               </Select>
             </FormControl>
