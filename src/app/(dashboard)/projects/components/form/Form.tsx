@@ -1,22 +1,18 @@
 'use client'
 
 import CustomTextField from "@/app/(dashboard)/components/forms/theme-elements/CustomTextField"
-import { Autocomplete, Button, Card, Checkbox, FormControl, FormControlLabel, Grid, TextField, Typography } from "@mui/material"
-import { useState } from "react"
+import { Button, Card, Checkbox, FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material"
+import { Dispatch, SetStateAction, useState } from "react"
+import { ProjectDto } from "../../services/dto/Project.dto"
 
 interface FormProjectsProps {
   title: string
+  project: ProjectDto
+  setProject: Dispatch<SetStateAction<ProjectDto>>
+  action: (e: any) => void
 }
 
-export const FormProjects = ({ title }: FormProjectsProps) => {
-  const [project, setProject] = useState<any>({
-    title: '',
-    description: '',
-    languages: [],
-    backend: false,
-    frontend: false,
-  })
-
+export const FormProjects = ({ title, project, setProject, action }: FormProjectsProps) => {
   const languages = [
     { title: 'Javascript' },
     { title: 'Typescript' },
@@ -33,7 +29,7 @@ export const FormProjects = ({ title }: FormProjectsProps) => {
   ]
 
   return (
-    <form>
+    <form onSubmit={action}>
       <Card sx={{ padding: 4 }}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
@@ -42,6 +38,7 @@ export const FormProjects = ({ title }: FormProjectsProps) => {
 
           <Grid item xs={4}>
             <TextField
+              name="title"
               fullWidth
               label="Title"
               variant="outlined"
@@ -51,18 +48,41 @@ export const FormProjects = ({ title }: FormProjectsProps) => {
           </Grid>
 
           <Grid item xs={4}>
-            <Autocomplete
-              fullWidth
-              multiple
-              options={languages}
-              getOptionLabel={(option) => option.title}
-              renderInput={(params) => <TextField {...params} label="Languages" variant="outlined" />}
-            />
+            <FormControl fullWidth>
+              <InputLabel id="language">Language</InputLabel>
+              <Select
+                labelId="language"
+                id="language"
+                value={project.language}
+                label="Language"
+                onChange={(e: any) => setProject({ ...project, language: e.target.value })}
+              >
+                {languages.map((language, index) => (
+                  <MenuItem key={index} value={language.title}>{language.title}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Grid>
 
           <Grid item xs={4}>
-            <FormControlLabel control={<Checkbox />} label="Frontend" />
-            <FormControlLabel control={<Checkbox />} label="Backend" />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value={project.frontend}
+                  onChange={(e) => setProject({ ...project, frontend: e.target.checked })}
+                />
+              }
+              label="Frontend"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value={project.backend}
+                  onChange={(e) => setProject({ ...project, backend: e.target.checked })}
+                />
+              }
+              label="Backend"
+            />
           </Grid>
 
           <Grid item xs={12}>
@@ -71,13 +91,16 @@ export const FormProjects = ({ title }: FormProjectsProps) => {
               label="Description"
               multiline
               rows={4}
+              name="description"
               value={project.description}
               onChange={(e: any) => setProject({ ...project, description: e.target.value })}
             />
           </Grid>
         </Grid>
+
         <Button
           variant='contained'
+          type="submit"
           sx={{ marginTop: 2, float: 'right' }}
         >
           Save

@@ -1,8 +1,9 @@
 export interface ProjectDto {
-  id: string;
+  id?: string;
   title: string;
   description: string;
-  languages: string[];
+  language: string;
   backend: boolean;
   frontend: boolean;
+  user_id: string;
 }
