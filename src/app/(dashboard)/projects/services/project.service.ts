@@ -12,6 +12,17 @@ class ProjectService {
       return error;
     }
   }
+
+  async getProjects(): Promise<any> {
+    try {
+      const { data } = await ApiGateway.get(PROJECT_ROUTES.GET_PROJECTS)
+
+      return data;
+    } catch (error) {
+      return error;
+    }
+
+  }
 }
 
 export const projectService = new ProjectService();

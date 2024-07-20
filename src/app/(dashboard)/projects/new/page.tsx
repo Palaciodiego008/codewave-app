@@ -9,7 +9,7 @@ import { useCreateProject } from "../hooks/useCreateProject";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
-export const NewProjects = () => {
+export default function NewProjects() {
   const { user } = useAuthContext()
   const router = useRouter()
   const { createProject } = useCreateProject()
@@ -58,5 +58,3 @@ export const NewProjects = () => {
     </Box>
   )
 }
-
-export default NewProjects;
