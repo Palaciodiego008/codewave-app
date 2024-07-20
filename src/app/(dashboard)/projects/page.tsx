@@ -76,6 +76,11 @@ const Projects = () => {
                     Frontend
                   </Typography>
                 </TableCell>
+                <TableCell align="right">
+                  <Typography variant="subtitle2" fontWeight={600}>
+                    Actions
+                  </Typography>
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -93,6 +98,29 @@ const Projects = () => {
                   <TableCell align="right">
                     {project?.frontend ? "Yes" : "No"}
                   </TableCell>
+                  <TableCell align="right">
+                    <Link href={`/projects/${project?.id}`} passHref>
+                      <Button component="a" variant="contained" color="info">
+                        View
+                      </Button>
+                    </Link>
+                  </TableCell>
+
+                  <TableCell align="right">
+                    <Link href={`/projects/${project?.id}/edit`} passHref>
+                      <Button component="a" variant="contained" color="warning">
+                        Edit
+                      </Button>
+                    </Link>
+                  </TableCell>
+
+                  {/* <TableCell align="right">
+                    <Link href={`/projects/${project?.id}/delete`} passHref>
+                      <Button component="a" variant="contained" color="warning">
+                        Delete
+                      </Button>
+                    </Link>
+                  </TableCell> */}
                 </TableRow>
               ))}
             </TableBody>
