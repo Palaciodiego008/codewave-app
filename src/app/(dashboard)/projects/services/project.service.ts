@@ -15,7 +15,7 @@ class ProjectService {
 
   async getProjects(userId: string): Promise<ProjectDto[]> {
     try {
-      const { data } = await ApiGateway.get(`${PROJECT_ROUTES.GET_PROJECTS}&user_id=${userId}`)
+      const { data } = await ApiGateway.get(`${PROJECT_ROUTES.GET_PROJECTS}?user_id=${userId}`)
 
       return data;
     } catch (error) {
