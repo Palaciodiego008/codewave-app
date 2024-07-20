@@ -13,13 +13,15 @@ class ProjectService {
     }
   }
 
-  async getProjects(): Promise<any> {
+  async getProjects(userId: string): Promise<ProjectDto[]> {
     try {
-      const { data } = await ApiGateway.get(PROJECT_ROUTES.GET_PROJECTS)
+      const { data } = await ApiGateway.get(`${PROJECT_ROUTES.GET_PROJECTS}&user_id=${userId}`)
 
       return data;
     } catch (error) {
-      return error;
+      const err = String(error);
+
+      throw new Error(err);
     }
 
   }

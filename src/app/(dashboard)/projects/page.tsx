@@ -1,8 +1,20 @@
 import { Box, Button, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import DashboardCard from "../components/shared/DashboardCard";
 import Link from "next/link";
+import { useAuthContext } from "@/context/AuthContext/auth.context";
+import { useEffect } from "react";
+import { useGetProjects } from "./hooks/useGetProjects";
 
 const Projects = () => {
+  const { user } = useAuthContext();
+  const { projects, getProjects } = useGetProjects();
+
+  useEffect(() => {
+    if (!user) return;
+
+    getProjects(user.id);
+  }, [user]);
+
   return (
     <Box>
       <DashboardCard
@@ -58,6 +70,17 @@ const Projects = () => {
               </TableRow>
             </TableHead>
             <TableBody>
+              {projects.map((project) => (
+                <TableRow key={project.id}>
+                  <TableCell component="th" scope="row">
+                    {project.id}
+                  </TableCell>
+                  <TableCell>{project.title}</TableCell>
+                  <TableCell>{project.description}</TableCell>
+                  <TableCell align="right">{project.backend}</TableCell>
+                  <TableCell align="right">{project.frontend}</TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </Box>
