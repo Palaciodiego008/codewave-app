@@ -25,8 +25,6 @@ export const FileUpload = ({ sx, onChange }: FileUploadProps) => {
     if (files && files.length > 0) {
       onChange(files[0]);
     }
-
-    e.target.value = '';
   }
 
   return (

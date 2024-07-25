@@ -15,12 +15,13 @@ export const FormEditor = () => {
   const handleFileChange = (file: File) => {
     setFile(file);
     const reader = new FileReader();
-    reader.onload = readSuccess
-
-    function readSuccess(event: any) {
-      const contents = event.target.result;
-      console.log('File contents:', contents);
+    reader.onload = (e) => {
+      if (editorRef.current) {
+        editorRef.current.setValue(e.target?.result as string);
+      }
     }
+
+    reader.readAsText(file);
   }
 
   const handleShowValue = () => {
