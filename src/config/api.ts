@@ -6,7 +6,7 @@ export enum AUTH_ROUTES {
 export enum PROJECT_ROUTES {
   GET_PROJECTS = "/projects",
   CREATE_PROJECT = "/projects",
-  GET_PROJECT = "/projects/:id",
-  UPDATE_PROJECT = "/projects/:id",
-  DELETE_PROJECT = "/projects/:id",
+  GET_PROJECT = "/projects",
+  UPDATE_PROJECT = "/projects",
+  DELETE_PROJECT = "/projects",
 }

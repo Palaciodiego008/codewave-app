@@ -352,6 +352,20 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
+"@monaco-editor/loader@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@monaco-editor/loader/-/loader-1.4.0.tgz#f08227057331ec890fa1e903912a5b711a2ad558"
+  integrity sha512-00ioBig0x642hytVspPl7DbQyaSWRaolYie/UFNjoTdvoKPzo6xrXLhTk9ixgIKcLH5b5vDOjVNiGyY+uDCUlg==
+  dependencies:
+    state-local "^1.0.6"
+
+"@monaco-editor/react@^4.6.0":
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/@monaco-editor/react/-/react-4.6.0.tgz#bcc68671e358a21c3814566b865a54b191e24119"
+  integrity sha512-RFkU9/i7cN2bsq/iTkurMWOEErmYcY6JiQI3Jn+WeR/FGISH8JbHERjpS9oRuSOPvDMJI0Z8nJeKkbOs9sBYQw==
+  dependencies:
+    "@monaco-editor/loader" "^1.4.0"
+
 "@mui/base@5.0.0-beta.40":
   version "5.0.0-beta.40"
   resolved "https://registry.yarnpkg.com/@mui/base/-/base-5.0.0-beta.40.tgz#1f8a782f1fbf3f84a961e954c8176b187de3dae2"
@@ -369,6 +383,13 @@
   version "5.16.0"
   resolved "https://registry.yarnpkg.com/@mui/core-downloads-tracker/-/core-downloads-tracker-5.16.0.tgz#50153c698e321793c83a0283d8d7a9dc5d43858a"
   integrity sha512-8SLffXYPRVpcZx5QzxNE8fytTqzp+IuU3deZbQWg/vSaTlDpR5YVrQ4qQtXTi5cRdhOufV5INylmwlKK+//nPw==
+
+"@mui/icons-material@^5.16.4":
+  version "5.16.4"
+  resolved "https://registry.yarnpkg.com/@mui/icons-material/-/icons-material-5.16.4.tgz#8c7e228c1e178992d89fab47e057222c8209bd7b"
+  integrity sha512-j9/CWctv6TH6Dou2uR2EH7UOgu79CW/YcozxCYVLJ7l03pCsiOlJ5sBArnWJxJ+nGkFwyL/1d1k8JEPMDR125A==
+  dependencies:
+    "@babel/runtime" "^7.23.9"
 
 "@mui/lab@^5.0.0-alpha.171":
   version "5.0.0-alpha.171"
@@ -2286,6 +2307,11 @@ minimist@^1.2.0, minimist@^1.2.6:
   resolved "https://registry.yarnpkg.com/minipass/-/minipass-7.1.2.tgz#93a9626ce5e5e66bd4db86849e7515e92340a707"
   integrity sha512-qOOzS1cBTWYF4BH8fVePDBOO9iptMnGUEZwNc/cMWnTV2nVLZ7VoNWEPHkYczZA0pdoA7dl6e7FL659nX9S2aw==
 
+monaco-editor@^0.50.0:
+  version "0.50.0"
+  resolved "https://registry.yarnpkg.com/monaco-editor/-/monaco-editor-0.50.0.tgz#44e62b124c8aed224e1d310bbbe6ffd6d5122413"
+  integrity sha512-8CclLCmrRRh+sul7C08BmPBP3P8wVWfBHomsTcndxg5NRCEPfu/mc2AGU8k37ajjDVXcXFc12ORAMUkmk+lkFA==
+
 ms@2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
@@ -2786,6 +2812,11 @@ source-map@^0.5.7:
   version "0.5.7"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.5.7.tgz#8a039d2d1021d22d1ea14c80d8ea468ba2ef3fcc"
   integrity sha512-LbrmJOMUSdEVxIKvdcJzQC+nQhe8FUZQTXQy6+I75skNgn3OoQ0DZA8YnFa7gp8tqtL3KPf1kmo0R5DoApeSGQ==
+
+state-local@^1.0.6:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/state-local/-/state-local-1.0.7.tgz#da50211d07f05748d53009bee46307a37db386d5"
+  integrity sha512-HTEHMNieakEnoe33shBYcZ7NX83ACUjCu8c40iOGEZsngj9zRnkqS9j1pqQPXwobB0ZcVTk27REb7COQ0UR59w==
 
 stop-iteration-iterator@^1.0.0:
   version "1.0.0"

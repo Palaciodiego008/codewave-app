@@ -1,0 +1,54 @@
+'use client';
+
+import { Box, Button, Card, Stack, SxProps, Theme, Typography } from "@mui/material";
+import { useEffect } from "react";
+import { useGetProject } from "../hooks/useGetProject";
+import { useParams } from "next/navigation";
+import { FormEditor } from "./components/FormEditor/FormEditor";
+
+export const ProjectDetails = () => {
+  const params = useParams();
+  const { project, getProject } = useGetProject()
+
+  const cardStylesSx: SxProps<Theme> = {
+    padding: 4,
+    marginTop: 4,
+  }
+
+  useEffect(() => {
+    const { id } = params
+
+    if (id) {
+      getProject(id as string)
+    }
+  }, [params.id])
+
+  return (
+    <Box>
+      <Typography variant="h2">Project Details</Typography>
+
+      <Card sx={cardStylesSx}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Typography variant="h4">{project.title}</Typography>
+          <Stack direction='row' spacing={2}>
+            <Button variant="contained" color="primary">Edit</Button>
+            <Button variant="contained" color='error'>Delete</Button>
+          </Stack>
+        </Box>
+      </Card>
+
+      <Card sx={cardStylesSx}>
+        <Typography variant="h5">Description</Typography>
+        <Typography>{project.description}</Typography>
+        <Typography variant="h5" marginTop={4}>Backend: {project.backend ? 'Yes' : 'No'}</Typography>
+        <Typography variant="h5">Frontend: {project.frontend ? 'Yes' : 'No'}</Typography>
+      </Card>
+
+      <Card sx={cardStylesSx}>
+        <FormEditor />
+      </Card>
+    </Box>
+  )
+}
+
+export default ProjectDetails;

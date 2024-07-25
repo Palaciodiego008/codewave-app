@@ -23,7 +23,18 @@ class ProjectService {
 
       throw new Error(err);
     }
+  }
 
+  async getProject(projectId: string): Promise<ProjectDto> {
+    try {
+      const { data } = await ApiGateway.get(`${PROJECT_ROUTES.GET_PROJECT}/${projectId}`)
+
+      return data;
+    } catch (error) {
+      const err = String(error);
+
+      throw new Error(err);
+    }
   }
 }
 
