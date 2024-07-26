@@ -1,8 +1,7 @@
-import { Editor, Monaco } from "@monaco-editor/react"
-import { FileUpload } from "../inputs/FileUpload"
+import { Editor, Monaco } from "@monaco-editor/react";
+import { FileUpload } from "../inputs/FileUpload";
 import { useEffect, useRef, useState } from "react";
 import { Button, Stack, Typography } from "@mui/material";
-import editor from 'monaco-editor';
 import { useUpdateProject } from "../../../hooks/useUpdateProject";
 import { ProjectDto } from "../../../services/dto/Project.dto";
 import { isEmpty } from 'lodash';
@@ -26,12 +25,21 @@ export const FormEditor = ({ project }: FormEditorProps) => {
     reader.onload = (e) => {
       if (editorRef.current) {
         const result = e.target?.result as string;
-        editorRef.current.setValue(result);
+        const fileExtension = file.name.split('.').pop();
+        const allowedLanguages = project.languages.map(lang => lang.toLowerCase());
 
-        updateProject(project.id as string, {
-          ...project,
-          snapshot_code: result
-        })
+        if (allowedLanguages.includes(fileExtension?.toLowerCase() || '')) {
+          editorRef.current.setValue(result);
+
+          updateProject(project.id as string, {
+            ...project,
+            snapshot_code: result
+          });
+
+          toast.success('Code uploaded successfully');
+        } else {
+          toast.error(`The uploaded file's language is not allowed. Allowed languages: ${allowedLanguages.join(', ')}`);
+        }
       }
     }
 
@@ -57,7 +65,7 @@ export const FormEditor = ({ project }: FormEditorProps) => {
       snapshot_code: code
     })
 
-    toast.success('Code saved successfully')
+    toast.success('Code saved successfully');
   }
 
   useEffect(() => {
@@ -66,7 +74,7 @@ export const FormEditor = ({ project }: FormEditorProps) => {
         editorRef.current.setValue(project?.snapshot_code);
       }, 1000)
     }
-  }, [project])
+  }, [project]);
 
   return (
     <>
@@ -81,7 +89,7 @@ export const FormEditor = ({ project }: FormEditorProps) => {
       </Stack>
       <Editor
         height="90vh"
-        defaultLanguage="javascript"
+        defaultLanguage={project?.languages?.join(",")}
         defaultValue="// Write your code here"
         theme="vs-dark"
         onMount={handleEditorDidMount}
