@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import {
   Box,
@@ -9,7 +10,7 @@ import {
   Checkbox,
 } from "@mui/material";
 import Link from "next/link";
-
+import toast from "react-hot-toast";
 import CustomTextField from "@/app/(dashboard)/components/forms/theme-elements/CustomTextField";
 import { useAuthContext } from "@/context/AuthContext/auth.context";
 
@@ -33,11 +34,14 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
     }
   }
 
-  const handleLogin = () => {
-    login({
-      email: email,
-      password: password,
-    });
+  const handleLogin = async () => {
+    try {
+      await login({ email, password });
+    } catch (error: any) {
+      if (error?.data?.error === "Invalid email or password") {
+        toast.error("Invalid email or password");
+      }
+    }
   }
 
   return (
@@ -97,7 +101,7 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
           <FormGroup>
             <FormControlLabel
               control={<Checkbox defaultChecked />}
-              label="Remeber this Device"
+              label="Remember this Device"
             />
           </FormGroup>
           <Typography
@@ -109,7 +113,7 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
               color: "primary.main",
             }}
           >
-            Forgot Password ?
+            Forgot Password?
           </Typography>
         </Stack>
       </Stack>
@@ -120,8 +124,6 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
           size="large"
           fullWidth
           onClick={handleLogin}
-          component={Link}
-          href="/"
           type="submit"
         >
           Sign In
