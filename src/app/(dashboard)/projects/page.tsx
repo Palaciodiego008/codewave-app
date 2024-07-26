@@ -113,14 +113,6 @@ const Projects = () => {
                       </Button>
                     </Link>
                   </TableCell>
-
-                  {/* <TableCell align="right">
-                    <Link href={`/projects/${project?.id}/delete`} passHref>
-                      <Button component="a" variant="contained" color="warning">
-                        Delete
-                      </Button>
-                    </Link>
-                  </TableCell> */}
                 </TableRow>
               ))}
             </TableBody>

@@ -6,7 +6,7 @@ import { useGetProject } from "../hooks/useGetProject";
 import { useParams } from "next/navigation";
 import { FormEditor } from "./components/FormEditor/FormEditor";
 
-export const ProjectDetails = () => {
+const ProjectDetails = () => {
   const params = useParams();
   const { project, getProject } = useGetProject()
   const [file, setFile] = useState<File | null>(null)
