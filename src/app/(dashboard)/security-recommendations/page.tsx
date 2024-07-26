@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Button, Card, CardContent, CardHeader, Checkbox, FormControlLabel, Typography } from "@mui/material";
 import { useRouter } from 'next/navigation';
 import { useAuthContext } from "@/context/AuthContext/auth.context";
@@ -13,19 +13,62 @@ const cardStylesSx = {
   marginBottom: 2
 };
 
+const selectedCardStylesSx = {
+  ...cardStylesSx,
+  border: '2px solid #3f51b5'
+};
+
 const SecurityRecommendationsPage = () => {
   const router = useRouter();
   const { user } = useAuthContext();
   const { projects, getProjects } = useGetProjects();
+  const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
+  const [checkedItems, setCheckedItems] = useState<{ [key: string]: { [label: string]: boolean } }>({});
 
   useEffect(() => {
     if (user && projects.length === 0) {
       getProjects(user.id);
     }
-  }, [user, projects]);
+  }, [user, projects, getProjects]);
 
-  const handleGoToAnalysis = (projectId: any) => {
-    router.push(`/security-recommendations/project/${projectId}`);
+  const handleProjectSelect = (projectId: string) => {
+    // Deselect all checkboxes of the previously selected project
+    setCheckedItems(prevCheckedItems => {
+      const newCheckedItems = { ...prevCheckedItems };
+
+      // Deselect checkboxes of previously selected project
+      if (selectedProjectId && selectedProjectId !== projectId) {
+        newCheckedItems[selectedProjectId] = {}; // Clear checkboxes
+      }
+
+      setSelectedProjectId(projectId);
+      return newCheckedItems;
+    });
+  };
+
+  const handleCheckboxChange = (projectId: string, label: string, event: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckedItems(prevCheckedItems => {
+      const newCheckedItems = {
+        ...prevCheckedItems,
+        [projectId]: {
+          ...prevCheckedItems[projectId],
+          [label]: event.target.checked
+        }
+      };
+
+      // If no checkboxes are selected, deselect the project
+      if (projectId === selectedProjectId && !Object.values(newCheckedItems[projectId]).some(checked => checked)) {
+        setSelectedProjectId(null);
+      }
+
+      return newCheckedItems;
+    });
+  };
+
+  const handleGoToAnalysis = () => {
+    if (selectedProjectId) {
+      router.push(`/security-recommendations/project/${selectedProjectId}`);
+    }
   };
 
   return (
@@ -45,27 +88,48 @@ const SecurityRecommendationsPage = () => {
           <Typography variant="h4" gutterBottom>Select a Project</Typography>
           <Box sx={{ display: 'grid', gap: 4 }}>
             {projects.map((project) => (
-              <Card key={project.id} sx={cardStylesSx}>
+              <Card
+                key={project.id}
+                sx={selectedProjectId === project.id && Object.values(checkedItems[project.id] || {}).some(checked => checked) ? selectedCardStylesSx : cardStylesSx}
+                onClick={() => handleProjectSelect(project.id as string)}
+              >
                 <CardHeader title={project.title} subheader={project.description} />
                 <CardContent>
                   <Box sx={{ display: 'grid', gap: 2 }}>
-                    <FormControlLabel control={<Checkbox />} label="Security" />
-                    <FormControlLabel control={<Checkbox />} label="Legibility" />
-                    <FormControlLabel control={<Checkbox />} label="Static Code Analysis" />
-                    <FormControlLabel control={<Checkbox />} label="Dependency Scanning" />
-                    <FormControlLabel control={<Checkbox />} label="SAST" />
+                    <FormControlLabel
+                      control={<Checkbox checked={!!checkedItems[project.id as string]?.['Security']} onChange={(e) => handleCheckboxChange(project.id as string, 'Security', e)} />}
+                      label="Security"
+                    />
+                    <FormControlLabel
+                      control={<Checkbox checked={!!checkedItems[project.id as string]?.['Legibility']} onChange={(e) => handleCheckboxChange(project.id as string, 'Legibility', e)} />}
+                      label="Legibility"
+                    />
+                    <FormControlLabel
+                      control={<Checkbox checked={!!checkedItems[project.id as string]?.['Static Code Analysis']} onChange={(e) => handleCheckboxChange(project.id as string, 'Static Code Analysis', e)} />}
+                      label="Static Code Analysis"
+                    />
+                    <FormControlLabel
+                      control={<Checkbox checked={!!checkedItems[project.id as string]?.['Dependency Scanning']} onChange={(e) => handleCheckboxChange(project.id as string, 'Dependency Scanning', e)} />}
+                      label="Dependency Scanning"
+                    />
+                    <FormControlLabel
+                      control={<Checkbox checked={!!checkedItems[project.id as string]?.['SAST']} onChange={(e) => handleCheckboxChange(project.id as string, 'SAST', e)} />}
+                      label="SAST"
+                    />
                   </Box>
                 </CardContent>
-                <Box sx={{ padding: 2, textAlign: 'center' }}>
-                  <Button variant="contained" color="primary" onClick={() => handleGoToAnalysis(project.id)}>
-                    Go to Analysis
-                  </Button>
-                </Box>
               </Card>
             ))}
           </Box>
         </Box>
       </Box>
+      {selectedProjectId && Object.values(checkedItems[selectedProjectId] || {}).some(checked => checked) && (
+        <Box sx={{ padding: 4, borderTop: 1, borderColor: 'divider', textAlign: 'center' }}>
+          <Button variant="contained" color="primary" onClick={handleGoToAnalysis}>
+            Go to Analysis
+          </Button>
+        </Box>
+      )}
     </Box>
   );
 }
