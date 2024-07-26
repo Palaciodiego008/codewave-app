@@ -24,12 +24,15 @@ const SecurityRecommendationsPage = () => {
   const { projects, getProjects } = useGetProjects();
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
   const [checkedItems, setCheckedItems] = useState<{ [key: string]: { [label: string]: boolean } }>({});
+  const [projectsLoaded, setProjectsLoaded] = useState(false); // New state to track if projects have been loaded
 
   useEffect(() => {
-    if (user && projects.length === 0) {
-      getProjects(user.id);
+    if (user && !projectsLoaded) {
+      getProjects(user.id).finally(() => {
+        setProjectsLoaded(true); // Set to true after projects are fetched
+      });
     }
-  }, [user, projects, getProjects]);
+  }, [user, projectsLoaded, getProjects]);
 
   const handleProjectSelect = (projectId: string) => {
     // Deselect all checkboxes of the previously selected project

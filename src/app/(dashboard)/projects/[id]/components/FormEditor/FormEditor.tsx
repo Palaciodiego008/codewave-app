@@ -1,11 +1,29 @@
-import { Editor, Monaco } from "@monaco-editor/react";
+import { Editor } from "@monaco-editor/react";
 import { FileUpload } from "../inputs/FileUpload";
-import { useEffect, useRef, useState } from "react";
 import { Button, Stack, Typography } from "@mui/material";
 import { useUpdateProject } from "../../../hooks/useUpdateProject";
 import { ProjectDto } from "../../../services/dto/Project.dto";
 import { isEmpty } from 'lodash';
 import toast from "react-hot-toast";
+import { useEffect, useRef, useState } from "react";
+
+// Define the mapping of file extensions to programming languages
+const extensionToLanguage: { [key: string]: string } = {
+  js: 'Javascript',
+  jsx: 'Javascript',
+  ts: 'Typescript',
+  tsx: 'Typescript',
+  py: 'Python',
+  java: 'Java',
+  rb: 'Ruby',
+  go: 'Go',
+  cs: 'C#',
+  cpp: 'C++',
+  php: 'PHP',
+  swift: 'Swift',
+  kt: 'Kotlin',
+  rs: 'Rust',
+};
 
 interface FormEditorProps {
   project: ProjectDto;
@@ -25,10 +43,11 @@ export const FormEditor = ({ project }: FormEditorProps) => {
     reader.onload = (e) => {
       if (editorRef.current) {
         const result = e.target?.result as string;
-        const fileExtension = file.name.split('.').pop();
+        const fileExtension = file.name.split('.').pop()?.toLowerCase() || '';
         const allowedLanguages = project.languages.map(lang => lang.toLowerCase());
+        const fileLanguage = extensionToLanguage[fileExtension].toLowerCase() || '';
 
-        if (allowedLanguages.includes(fileExtension?.toLowerCase() || '')) {
+        if (allowedLanguages.includes(fileLanguage)) {
           editorRef.current.setValue(result);
 
           updateProject(project.id as string, {
@@ -71,8 +90,10 @@ export const FormEditor = ({ project }: FormEditorProps) => {
   useEffect(() => {
     if (!isEmpty(project)) {
       setTimeout(() => {
-        editorRef.current.setValue(project?.snapshot_code);
-      }, 1000)
+        if (editorRef.current) {
+          editorRef.current.setValue(project?.snapshot_code);
+        }
+      }, 1000);
     }
   }, [project]);
 
@@ -89,7 +110,7 @@ export const FormEditor = ({ project }: FormEditorProps) => {
       </Stack>
       <Editor
         height="90vh"
-        defaultLanguage={project?.languages?.join(",")}
+        defaultLanguage={project?.languages?.[0] || 'javascript'} // Default language if none specified
         defaultValue="// Write your code here"
         theme="vs-dark"
         onMount={handleEditorDidMount}
