@@ -87,7 +87,7 @@ const SecurityRecommendationsPage = () => {
         <Box sx={{ maxWidth: 1200, margin: 'auto', display: 'grid', gap: 4 }}>
           <Typography variant="h4" gutterBottom>Select a Project</Typography>
           <Box sx={{ display: 'grid', gap: 4 }}>
-            {projects.map((project) => (
+            {projects?.filter(project => project?.snapshot_code).map((project) => (
               <Card
                 key={project.id}
                 sx={selectedProjectId === project.id && Object.values(checkedItems[project.id] || {}).some(checked => checked) ? selectedCardStylesSx : cardStylesSx}

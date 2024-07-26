@@ -5,6 +5,7 @@ import { authService } from "@/app/authentication/services/auth.service";
 import { AuthDto, RegisterDto, UserDto } from "@/app/authentication/services/dto/Auth.dto";
 import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 interface AuthContextProps {
   user: UserDto
@@ -49,6 +50,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       })
 
       router.push("/")
+      toast.success("Login successful")
+    }else{
+     console.log("error", res);
+     toast.error("An error occurred, please try again");
     }
 
     return res

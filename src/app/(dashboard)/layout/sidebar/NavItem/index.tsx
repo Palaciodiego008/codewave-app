@@ -80,7 +80,15 @@ const NavItem = ({ item, level, pathDirect, onClick }: ItemType) => {
           >
             {itemIcon}
           </ListItemIcon>
-          <ListItemText>
+          <ListItemText sx={{
+            "& .MuiListItemText-primary": {
+              fontSize: "16px",
+              fontWeight: "400",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            },
+          }}>
             <>{item.title}</>
           </ListItemText>
         </ListItemButton>
