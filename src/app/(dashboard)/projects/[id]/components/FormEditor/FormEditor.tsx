@@ -63,7 +63,7 @@ export const FormEditor = ({ project }: FormEditorProps) => {
   useEffect(() => {
     if (!isEmpty(project)) {
       setTimeout(() => {
-        editorRef.current.setValue(project.snapshot_code);
+        editorRef.current.setValue(project?.snapshot_code);
       }, 1000)
     }
   }, [project])

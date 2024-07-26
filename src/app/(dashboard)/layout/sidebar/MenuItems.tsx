@@ -35,15 +35,15 @@ const Menuitems = [
   },
   {
     id: uniqueId(),
-    title: "API Analysis",
-    icon: IconApi,
-    href: "/api-analysis",
-  },
-  {
-    id: uniqueId(),
     title: "Security Recommendations",
     icon: IconShieldCheck,
     href: "/security-recommendations",
+  },
+  {
+    id: uniqueId(),
+    title: "API Analysis",
+    icon: IconApi,
+    href: "/api-analysis",
   },
 ];
 
