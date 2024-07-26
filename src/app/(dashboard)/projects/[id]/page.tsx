@@ -1,7 +1,7 @@
 'use client';
 
 import { Box, Button, Card, Stack, SxProps, Theme, Typography } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useGetProject } from "../hooks/useGetProject";
 import { useParams } from "next/navigation";
 import { FormEditor } from "./components/FormEditor/FormEditor";
@@ -9,6 +9,7 @@ import { FormEditor } from "./components/FormEditor/FormEditor";
 export const ProjectDetails = () => {
   const params = useParams();
   const { project, getProject } = useGetProject()
+  const [file, setFile] = useState<File | null>(null)
 
   const cardStylesSx: SxProps<Theme> = {
     padding: 4,
@@ -45,7 +46,7 @@ export const ProjectDetails = () => {
       </Card>
 
       <Card sx={cardStylesSx}>
-        <FormEditor />
+        <FormEditor project={project} />
       </Card>
     </Box>
   )

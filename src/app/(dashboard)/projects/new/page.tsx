@@ -21,6 +21,7 @@ export default function NewProjects() {
     backend: false,
     frontend: false,
     user_id: '',
+    snapshot_code: ''
   });
 
   useEffect(() => {

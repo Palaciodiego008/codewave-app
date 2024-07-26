@@ -36,6 +36,16 @@ class ProjectService {
       throw new Error(err);
     }
   }
+
+  async updateProject(projectId: string, project: ProjectDto): Promise<any> {
+    try {
+      const { data } = await ApiGateway.put(`${PROJECT_ROUTES.UPDATE_PROJECT}/${projectId}`, { ...project })
+
+      return data;
+    } catch (error) {
+      return error;
+    }
+  }
 }
 
 export const projectService = new ProjectService();

@@ -1,34 +1,72 @@
 import { Editor, Monaco } from "@monaco-editor/react"
 import { FileUpload } from "../inputs/FileUpload"
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button, Stack, Typography } from "@mui/material";
 import editor from 'monaco-editor';
+import { useUpdateProject } from "../../../hooks/useUpdateProject";
+import { ProjectDto } from "../../../services/dto/Project.dto";
+import { isEmpty } from 'lodash';
+import toast from "react-hot-toast";
 
-export const FormEditor = () => {
-  const [file, setFile] = useState<File | null>(null);
+interface FormEditorProps {
+  project: ProjectDto;
+}
+
+export const FormEditor = ({ project }: FormEditorProps) => {
+  const { updateProject } = useUpdateProject();
+  const [code, setCode] = useState<string>('');
   const editorRef = useRef<any>(null);
 
   const handleEditorDidMount = (editor: any, monaco: any) => {
     editorRef.current = editor;
   }
 
-  const handleFileChange = (file: File) => {
-    setFile(file);
+  const readContentFile = (file: File) => {
     const reader = new FileReader();
     reader.onload = (e) => {
       if (editorRef.current) {
-        editorRef.current.setValue(e.target?.result as string);
+        const result = e.target?.result as string;
+        editorRef.current.setValue(result);
+
+        updateProject(project.id as string, {
+          ...project,
+          snapshot_code: result
+        })
       }
     }
 
     reader.readAsText(file);
   }
 
-  const handleShowValue = () => {
-    if (editorRef.current) {
-      console.log(editorRef.current.getValue());
-    }
+  const handleFileChange = (file: File) => {
+    readContentFile(file);
   }
+
+  const handleChangeEditor = (value: string) => {
+    setCode(value);
+
+    updateProject(project.id as string, {
+      ...project,
+      snapshot_code: value
+    })
+  }
+
+  const saveCodeToProject = () => {
+    updateProject(project.id as string, {
+      ...project,
+      snapshot_code: code
+    })
+
+    toast.success('Code saved successfully')
+  }
+
+  useEffect(() => {
+    if (!isEmpty(project)) {
+      setTimeout(() => {
+        editorRef.current.setValue(project.snapshot_code);
+      }, 1000)
+    }
+  }, [project])
 
   return (
     <>
@@ -39,18 +77,19 @@ export const FormEditor = () => {
         marginBottom={4}
       >
         <FileUpload onChange={handleFileChange} />
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleShowValue}
-        >Show Value</Button>
+        <Button variant="contained" color='primary' onClick={saveCodeToProject}>Save</Button>
       </Stack>
       <Editor
         height="90vh"
         defaultLanguage="javascript"
-        defaultValue="// some comment"
+        defaultValue="// Write your code here"
         theme="vs-dark"
         onMount={handleEditorDidMount}
+        onChange={(value) => {
+          if (value) {
+            handleChangeEditor(value)
+          }
+        }}
       />
     </>
   )
