@@ -5,6 +5,8 @@ import { Box, Button, Card, CardContent, CardHeader, Checkbox, FormControlLabel,
 import { useRouter } from 'next/navigation';
 import { useAuthContext } from "@/context/AuthContext/auth.context";
 import { useGetProjects } from "../projects/hooks/useGetProjects";
+import { useAtom } from 'jotai';
+import { projectSelectedFromRecommendation } from '@/context/AuthContext/jotai';
 
 const cardStylesSx = {
   boxShadow: 3,
@@ -24,18 +26,20 @@ const SecurityRecommendationsPage = () => {
   const { projects, getProjects } = useGetProjects();
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
   const [checkedItems, setCheckedItems] = useState<{ [key: string]: { [label: string]: boolean } }>({});
-  const [projectsLoaded, setProjectsLoaded] = useState(false); // New state to track if projects have been loaded
+  const [projectsLoaded, setProjectsLoaded] = useState(false);
+  const [localProject, setLocalProject] = useState<any>(null);
+  const [localCheckboxes, setLocalCheckboxes] = useState<{ [label: string]: boolean }>({});
+  const [, setSelectedProject] = useAtom(projectSelectedFromRecommendation);
 
   useEffect(() => {
     if (user && !projectsLoaded) {
       getProjects(user.id).finally(() => {
-        setProjectsLoaded(true); // Set to true after projects are fetched
+        setProjectsLoaded(true);
       });
     }
   }, [user, projectsLoaded, getProjects]);
 
   const handleProjectSelect = (projectId: string) => {
-    // Deselect all checkboxes of the previously selected project
     setCheckedItems(prevCheckedItems => {
       const newCheckedItems = { ...prevCheckedItems };
 
@@ -44,7 +48,11 @@ const SecurityRecommendationsPage = () => {
         newCheckedItems[selectedProjectId] = {}; // Clear checkboxes
       }
 
+      const selectedProject = projects?.find(project => project.id === projectId);
+
       setSelectedProjectId(projectId);
+      setLocalProject(selectedProject);
+      setLocalCheckboxes(newCheckedItems[projectId] || {});
       return newCheckedItems;
     });
   };
@@ -59,9 +67,14 @@ const SecurityRecommendationsPage = () => {
         }
       };
 
-      // If no checkboxes are selected, deselect the project
+      if (projectId === selectedProjectId) {
+        setLocalCheckboxes(newCheckedItems[projectId]);
+      }
+
       if (projectId === selectedProjectId && !Object.values(newCheckedItems[projectId]).some(checked => checked)) {
         setSelectedProjectId(null);
+        setLocalProject(null);
+        setLocalCheckboxes({});
       }
 
       return newCheckedItems;
@@ -70,6 +83,11 @@ const SecurityRecommendationsPage = () => {
 
   const handleGoToAnalysis = () => {
     if (selectedProjectId) {
+      setSelectedProject({
+        project: localProject,
+        checkboxes: localCheckboxes
+      });
+
       router.push(`/security-recommendations/project/${selectedProjectId}`);
     }
   };
