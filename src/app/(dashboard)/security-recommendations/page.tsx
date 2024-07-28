@@ -131,8 +131,8 @@ const SecurityRecommendationsPage = () => {
                       label="Security"
                     />
                     <FormControlLabel
-                      control={<Checkbox checked={!!checkedItems[project.id as string]?.['Legibility']} onChange={(e) => handleCheckboxChange(project.id as string, 'Legibility', e)} />}
-                      label="Legibility"
+                      control={<Checkbox checked={!!checkedItems[project.id as string]?.['Readability']} onChange={(e) => handleCheckboxChange(project.id as string, 'Readability', e)} />}
+                      label="Readability"
                     />
                     <FormControlLabel
                       control={<Checkbox checked={!!checkedItems[project.id as string]?.['Static Code Analysis']} onChange={(e) => handleCheckboxChange(project.id as string, 'Static Code Analysis', e)} />}
