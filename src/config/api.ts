@@ -10,3 +10,8 @@ export enum PROJECT_ROUTES {
   UPDATE_PROJECT = "/projects",
   DELETE_PROJECT = "/projects",
 }
+
+export enum RECOMMENDATION_ROUTES {
+  GET_SECURITY_RECOMMENDATIONS = "/recommendation-analysis",
+  GET_COST_RECOMMENDATIONS = "/recommendations/cost",
+}

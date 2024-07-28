@@ -1,12 +1,13 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Card, CardContent, CardHeader, Checkbox, FormControlLabel, Typography } from "@mui/material";
+import { Box, Button, Card, CardContent, CardHeader, Checkbox, FormControlLabel, Typography, CircularProgress } from "@mui/material";
 import { useRouter } from 'next/navigation';
 import { useAuthContext } from "@/context/AuthContext/auth.context";
 import { useGetProjects } from "../projects/hooks/useGetProjects";
+import { useGetSecurityRecommendations } from "./hooks/useGetSecurityRecommendation";
 import { useAtom } from 'jotai';
-import { projectSelectedFromRecommendation } from '@/context/AuthContext/jotai';
+import { projectSelectedFromRecommendation } from '@/context/jotai';
 
 const cardStylesSx = {
   boxShadow: 3,
@@ -24,12 +25,14 @@ const SecurityRecommendationsPage = () => {
   const router = useRouter();
   const { user } = useAuthContext();
   const { projects, getProjects } = useGetProjects();
+  const { getSecurityRecommendations } = useGetSecurityRecommendations();
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
   const [checkedItems, setCheckedItems] = useState<{ [key: string]: { [label: string]: boolean } }>({});
   const [projectsLoaded, setProjectsLoaded] = useState(false);
   const [localProject, setLocalProject] = useState<any>(null);
   const [localCheckboxes, setLocalCheckboxes] = useState<{ [label: string]: boolean }>({});
   const [, setSelectedProject] = useAtom(projectSelectedFromRecommendation);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (user && !projectsLoaded) {
@@ -81,15 +84,21 @@ const SecurityRecommendationsPage = () => {
     });
   };
 
-  const handleGoToAnalysis = () => {
+  const handleGoToAnalysis = async () => {
+    setLoading(true);
     if (selectedProjectId) {
+      const selectedSections = Object.keys(localCheckboxes).filter(key => localCheckboxes[key]);
+      const recommendations = await getSecurityRecommendations(localProject?.snapshot_code, selectedSections);
+
       setSelectedProject({
         project: localProject,
-        checkboxes: localCheckboxes
+        checkboxes: localCheckboxes,
+        recommendations
       });
 
       router.push(`/security-recommendations/project/${selectedProjectId}`);
     }
+    setLoading(false);
   };
 
   return (
@@ -133,10 +142,6 @@ const SecurityRecommendationsPage = () => {
                       control={<Checkbox checked={!!checkedItems[project.id as string]?.['Dependency Scanning']} onChange={(e) => handleCheckboxChange(project.id as string, 'Dependency Scanning', e)} />}
                       label="Dependency Scanning"
                     />
-                    <FormControlLabel
-                      control={<Checkbox checked={!!checkedItems[project.id as string]?.['SAST']} onChange={(e) => handleCheckboxChange(project.id as string, 'SAST', e)} />}
-                      label="SAST"
-                    />
                   </Box>
                 </CardContent>
               </Card>
@@ -146,8 +151,8 @@ const SecurityRecommendationsPage = () => {
       </Box>
       {selectedProjectId && Object.values(checkedItems[selectedProjectId] || {}).some(checked => checked) && (
         <Box sx={{ padding: 4, borderTop: 1, borderColor: 'divider', textAlign: 'center' }}>
-          <Button variant="contained" color="primary" onClick={handleGoToAnalysis}>
-            Go to Analysis
+          <Button variant="contained" color="primary" onClick={handleGoToAnalysis} disabled={loading}>
+            {loading ? <CircularProgress size={24} color="inherit" /> : "Go to Analysis"}
           </Button>
         </Box>
       )}
