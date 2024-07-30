@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useGetProject } from "../hooks/useGetProject";
 import { useParams } from "next/navigation";
 import { FormEditor } from "./components/FormEditor/FormEditor";
+import Link from "next/link";
 
 const ProjectDetails = () => {
   const params = useParams();
@@ -32,8 +33,10 @@ const ProjectDetails = () => {
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Typography variant="h4">{project.title}</Typography>
           <Stack direction='row' spacing={2}>
-            <Button variant="contained" color="primary">Edit</Button>
-            <Button variant="contained" color='error'>Delete</Button>
+          <Link href={`/projects/edit/${project?.id}`} passHref>
+          <Button variant="contained" color="primary">Edit</Button>
+          </Link>
+            {/* <Button variant="contained" color='error'>Delete</Button> */}
           </Stack>
         </Box>
       </Card>
