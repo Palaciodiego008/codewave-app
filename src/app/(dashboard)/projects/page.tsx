@@ -107,7 +107,7 @@ const Projects = () => {
                   </TableCell>
 
                   <TableCell align="right">
-                    <Link href={`/projects/${project?.id}/edit`} passHref>
+                    <Link href={`/projects/edit/${project?.id}`} passHref>
                       <Button component="a" variant="contained" color="warning">
                         Edit
                       </Button>
