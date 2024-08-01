@@ -13,6 +13,7 @@ import {
   CircularProgress,
   Backdrop,
   IconButton,
+  Chip,
 } from "@mui/material";
 import { useAtom } from "jotai";
 import { projectSelectedFromRecommendation } from "@/context/jotai";
@@ -42,8 +43,7 @@ const SecurityRecommendationsPageProject = () => {
   const [projectSelectedFromRecomendation] = useAtom(
     projectSelectedFromRecommendation
   );
-  const [recommendations, setRecommendations] =
-    useState<Recommendations | null>(null);
+  const [recommendations, setRecommendations] = useState<Recommendations | null>(null);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -53,7 +53,7 @@ const SecurityRecommendationsPageProject = () => {
       setRecommendations(projectSelectedFromRecomendation.recommendations);
       setTimeout(() => {
         setLoading(false);
-      }, 2000); // Simulate a delay for loading data
+      }, 1000); // Simulate a delay for loading data
     }
   }, [projectSelectedFromRecomendation]);
 
@@ -107,32 +107,32 @@ const SecurityRecommendationsPageProject = () => {
                         sx={{
                           p: 3,
                           mt: 2,
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
                         }}
                       >
-                        <Box>
-                          <Typography variant="subtitle1">
-                            {recommendation.title}
-                          </Typography>
-                          <Typography variant="body2" color="textSecondary">
-                            {recommendation.description}
-                          </Typography>
-                        </Box>
-                        <Badge
-                          badgeContent={recommendation.status}
-                          color={
-                            recommendation.status === "Passed"
-                              ? "success"
-                              : recommendation.status === "Needs Improvement"
-                              ? "warning"
-                              : recommendation.status === "Failed"
-                              ? "error"
-                              : "default"
-                          }
-                          sx={{ mr: 2 }}
-                        />
+                        <Grid container>
+                          <Grid item xs={12} md={8}>
+                            <Typography variant="h6" component="h3">
+                              {recommendation.title}
+                            </Typography>
+                            <Typography variant="body1">
+                              {recommendation.description}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={12} md={4} sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+                            <Chip
+                              label={recommendation.status}
+                              color={
+                                recommendation.status === "Passed"
+                                  ? "success"
+                                  : recommendation.status === "Needs Improvement"
+                                  ? "warning"
+                                  : recommendation.status === "Failed"
+                                  ? "error"
+                                  : "default"
+                              }
+                            />
+                          </Grid>
+                        </Grid>
                       </Paper>
                     ))}
                   </Paper>
