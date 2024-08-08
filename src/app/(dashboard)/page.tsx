@@ -2,12 +2,7 @@
 import { Grid, Box } from '@mui/material';
 import PageContainer from '@/app/(dashboard)/components/container/PageContainer';
 // components
-import SalesOverview from '@/app/(dashboard)/components/dashboard/SalesOverview';
-import YearlyBreakup from '@/app/(dashboard)/components/dashboard/YearlyBreakup';
-import RecentTransactions from '@/app/(dashboard)/components/dashboard/RecentTransactions';
-import ProductPerformance from '@/app/(dashboard)/components/dashboard/ProductPerformance';
-import MonthlyEarnings from '@/app/(dashboard)/components/dashboard/MonthlyEarnings';
-
+import SecurityMetricsOverview from '@/app/(dashboard)/components/dashboard/SecurityMetricsOverview';
 
 const Dashboard = () => {
   return (
@@ -15,25 +10,9 @@ const Dashboard = () => {
       <Box>
         <Grid container spacing={3}>
           <Grid item xs={12} lg={8}>
-            <SalesOverview />
+            <SecurityMetricsOverview />
           </Grid>
-          <Grid item xs={12} lg={4}>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <YearlyBreakup />
-              </Grid>
-              <Grid item xs={12}>
-                <MonthlyEarnings />
-              </Grid>
-            </Grid>
           </Grid>
-          <Grid item xs={12} lg={4}>
-            <RecentTransactions />
-          </Grid>
-          <Grid item xs={12} lg={8}>
-            <ProductPerformance />
-          </Grid>
-        </Grid>
       </Box>
     </PageContainer>
   )

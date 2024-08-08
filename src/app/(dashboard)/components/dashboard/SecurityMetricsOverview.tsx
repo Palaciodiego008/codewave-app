@@ -5,12 +5,12 @@ import DashboardCard from "@/app/(dashboard)/components/shared/DashboardCard";
 import dynamic from "next/dynamic";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-const SalesOverview = () => {
+const SecurityMetricsOverview = () => {
   // select
-  const [month, setMonth] = React.useState("1");
+  const [metric, setMetric] = React.useState("security");
 
   const handleChange = (event: any) => {
-    setMonth(event.target.value);
+    setMetric(event.target.value);
   };
 
   // chart color
@@ -67,14 +67,14 @@ const SalesOverview = () => {
     },
     xaxis: {
       categories: [
-        "16/08",
-        "17/08",
-        "18/08",
-        "19/08",
-        "20/08",
-        "21/08",
-        "22/08",
-        "23/08",
+        "Metric 1",
+        "Metric 2",
+        "Metric 3",
+        "Metric 4",
+        "Metric 5",
+        "Metric 6",
+        "Metric 7",
+        "Metric 8",
       ],
       axisBorder: {
         show: false,
@@ -87,29 +87,29 @@ const SalesOverview = () => {
   };
   const seriescolumnchart: any = [
     {
-      name: "Eanings this month",
-      data: [355, 390, 300, 350, 390, 180, 355, 390],
+      name: metric === "security" ? "Security Issues" : metric === "readability" ? "Readability Score" : "Performance",
+      data: metric === "security" ? [20, 15, 25, 10, 30, 5, 20, 25] : metric === "readability" ? [75, 80, 85, 70, 90, 65, 80, 85] : [70, 65, 75, 60, 80, 55, 70, 75],
     },
     {
-      name: "Expense this month",
-      data: [280, 250, 325, 215, 250, 310, 280, 250],
+      name: metric === "security" ? "Resolved Issues" : metric === "readability" ? "Improvement Score" : "Efficiency",
+      data: metric === "security" ? [15, 10, 20, 5, 25, 0, 15, 20] : metric === "readability" ? [10, 15, 20, 5, 25, 0, 10, 15] : [65, 60, 70, 55, 75, 50, 65, 70],
     },
   ];
 
   return (
     <DashboardCard
-      title="Sales Overview"
+      title="Security Metrics Overview"
       action={
         <Select
-          labelId="month-dd"
-          id="month-dd"
-          value={month}
+          labelId="metric-dd"
+          id="metric-dd"
+          value={metric}
           size="small"
           onChange={handleChange}
         >
-          <MenuItem value={1}>March 2023</MenuItem>
-          <MenuItem value={2}>April 2023</MenuItem>
-          <MenuItem value={3}>May 2023</MenuItem>
+          <MenuItem value="security">Security</MenuItem>
+          <MenuItem value="readability">Readability</MenuItem>
+          <MenuItem value="performance">Performance</MenuItem>
         </Select>
       }
     >
@@ -124,4 +124,4 @@ const SalesOverview = () => {
   );
 };
 
-export default SalesOverview;
+export default SecurityMetricsOverview;

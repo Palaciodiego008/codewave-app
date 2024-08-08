@@ -15,3 +15,10 @@ export enum RECOMMENDATION_ROUTES {
   GET_SECURITY_RECOMMENDATIONS = "/recommendation-analysis",
   GET_COST_RECOMMENDATIONS = "/recommendations/cost",
 }
+
+export enum OPENAPI_ROUTES  {
+  CREATE_OPENAPI = "/openapis",
+  GET_OPENAPIS = "/openapis",
+  GET_OPENAPI = "/openapis",
+  UPDATE_OPENAPI = "/openapis"
+};
