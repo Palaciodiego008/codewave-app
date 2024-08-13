@@ -1,5 +1,4 @@
 "use client";
-
 import {
   Box,
   Button,
@@ -11,23 +10,24 @@ import {
   ListItemText,
   CircularProgress,
   SxProps,
-  Theme
+  Theme,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useGetOpenApiById } from "../hooks/useGetApiAnalysis";
 import { useParams } from "next/navigation";
-import dynamic from 'next/dynamic';
+import dynamic from "next/dynamic";
 import "swagger-ui-react/swagger-ui.css";
 import { OpenApiDto } from "../services/dto/OpenApi.dto";
+import yaml from "js-yaml";
 
-const SwaggerUI = dynamic(() => import('swagger-ui-react'), { ssr: false });
+const SwaggerUI = dynamic(() => import("swagger-ui-react"), { ssr: false });
 
 const suggestions = [
   "Check for deprecated endpoints",
   "Verify authentication and authorization mechanisms",
   "Ensure proper error handling",
   "Review API documentation for completeness",
-  "Validate data models and response structures"
+  "Validate data models and response structures",
 ];
 
 const OpenApiDetails = () => {
@@ -60,13 +60,22 @@ const OpenApiDetails = () => {
 
   const handleOpen = () => {
     setLoading(true);
-    setTimeout(() => { // Simulate loading delay
+    setTimeout(() => {
       setLoading(false);
       setOpen(true);
     }, 500); // Adjust the delay as needed
   };
 
   const handleClose = () => setOpen(false);
+
+  const parseOpenApiData = (data: string, format: string) => {
+    try {
+      return format === "yml" || format === "yaml" ? yaml.load(data) : JSON.parse(data);
+    } catch (error) {
+      console.error("Error parsing OpenAPI data:", error);
+      return null;
+    }
+  };
 
   return (
     <Box>
@@ -75,9 +84,15 @@ const OpenApiDetails = () => {
       {openApiData && (
         <>
           <Card sx={cardStylesSx}>
-            <Typography variant="h4">{openApiData.name || 'No Name Available'}</Typography>
-            <Typography variant="h5">{openApiData.description || 'No Description Available'}</Typography>
-            <Typography variant="body1">{`Version: ${openApiData.version || 'No Version Available'}`}</Typography>
+            <Typography variant="h4">
+              {openApiData.name || "No Name Available"}
+            </Typography>
+            <Typography variant="h5">
+              {openApiData.description || "No Description Available"}
+            </Typography>
+            <Typography variant="body1">{`Version: ${
+              openApiData.version || "No Version Available"
+            }`}</Typography>
             <Button
               variant="contained"
               color="primary"
@@ -91,7 +106,9 @@ const OpenApiDetails = () => {
           <Card sx={cardStylesSx}>
             <Typography variant="h5">Swagger UI</Typography>
             {openApiData.openapi ? (
-              <SwaggerUI spec={JSON.parse(openApiData.openapi)} />
+              <SwaggerUI
+                spec={parseOpenApiData(openApiData.openapi, openApiData.format)}
+              />
             ) : (
               <Typography>Loading API specification...</Typography>
             )}
@@ -106,19 +123,26 @@ const OpenApiDetails = () => {
           >
             <Box
               sx={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
                 width: 400,
-                bgcolor: 'background.paper',
-                border: '2px solid #000',
+                bgcolor: "background.paper",
+                border: "2px solid #000",
                 boxShadow: 24,
                 p: 4,
               }}
             >
               {loading ? (
-                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100px' }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100px",
+                  }}
+                >
                   <CircularProgress />
                 </Box>
               ) : (
