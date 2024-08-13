@@ -6,6 +6,7 @@ import { ProjectDto } from "../../../services/dto/Project.dto";
 import { isEmpty } from 'lodash';
 import toast from "react-hot-toast";
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 
 // Define the mapping of file extensions to programming languages
 const extensionToLanguage: { [key: string]: string } = {
@@ -33,6 +34,7 @@ export const FormEditor = ({ project }: FormEditorProps) => {
   const { updateProject } = useUpdateProject();
   const [code, setCode] = useState<string>('');
   const editorRef = useRef<any>(null);
+  const router = useRouter();
 
   const handleEditorDidMount = (editor: any, monaco: any) => {
     editorRef.current = editor;
@@ -84,6 +86,7 @@ export const FormEditor = ({ project }: FormEditorProps) => {
       snapshot_code: code
     })
 
+    router.push("/security-recommendations");
     toast.success('Code saved successfully');
   }
 
