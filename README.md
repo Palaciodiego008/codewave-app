@@ -1,5 +1,3 @@
-Sure! Here's a well-structured `README.md` for your application:
-
 ---
 
 # CodeWave
